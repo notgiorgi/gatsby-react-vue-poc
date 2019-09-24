@@ -1,21 +1,43 @@
-import React from "react"
-import { Link } from "gatsby"
+import React, { useMemo } from 'react'
+import { useStaticQuery, graphql, Link } from 'gatsby'
 
-import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
+const IndexPage = () => {
+  const data = useStaticQuery(graphql`
+    query AllPages {
+      allSitePage {
+        edges {
+          node {
+            id
+            path
+            component
+          }
+        }
+      }
+    }
+  `)
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
+  const pages = useMemo(
+    () =>
+      data.allSitePage.edges
+        .map(edge => edge.node)
+        .filter(page => page.component.includes('standard-page')),
+    [],
+  )
+
+  return (
+    <div style={{ fontFamily: 'sans-serif' }}>
+      <h1>Welcome to the PoC</h1>
+
+      <h3>Available pages:</h3>
+      <ul>
+        {pages.map(page => (
+          <li key={page.id}>
+            <Link to={page.path}>{page.path}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+  )
+}
 
 export default IndexPage
