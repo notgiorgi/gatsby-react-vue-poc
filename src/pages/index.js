@@ -10,6 +10,7 @@ const IndexPage = () => {
             id
             path
             component
+            isCreatedByStatefulCreatePages
           }
         }
       }
@@ -20,7 +21,7 @@ const IndexPage = () => {
     () =>
       data.allSitePage.edges
         .map(edge => edge.node)
-        .filter(page => page.component.includes('standard-page')),
+        .filter(page => !page.isCreatedByStatefulCreatePages),
     [],
   )
 
