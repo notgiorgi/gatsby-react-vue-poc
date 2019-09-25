@@ -14,6 +14,8 @@ const PageRenderer = ({ componentTree }) => {
               customComponentId={component.customComponentId}
               customComponentInstanceId={component.id}
               data={component.props}
+              renderChildren={renderChildren}
+              dropzones={component.dropzones}
             />
           )
         return (
